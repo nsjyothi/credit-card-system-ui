@@ -4,7 +4,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CreditCard } from '../models/CreditCard';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { map } from 'rxjs/operators';
-import { NgForm, NgModel } from '@angular/forms';
+import { FormGroup, NgForm, NgModel, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 
 @Component({
@@ -18,16 +18,33 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   submitted = false;
   integerNumber = '0123456789';
   showTable: boolean;
+  showError: boolean;
+  name: any;
+  creditCardNumber: any;
+  creditCardLimit: any;
   displayedColumns: string[] = ['Name', 'Card Number', 'Balance', 'Limit'];
   dataSource: MatTableDataSource<CreditCard> = new MatTableDataSource();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('creditCardForm') public creditCardForm: NgForm;
-  @ViewChild('creditCardNumber') public creditCardNumber: NgModel;
 
-  constructor(private creditCardService: CreditCardService, private utilityService: UtilityService) {}
+
+  ccForm: FormGroup;
+
+  constructor(private creditCardService: CreditCardService, private utilityService: UtilityService, private fb: FormBuilder) {}
 
 
   ngOnInit(): void {
+    this.showError=false;
+    this.name = new FormControl();
+    this.creditCardNumber = new FormControl([Validators.minLength(13)]);
+    this.creditCardLimit = new FormControl([Validators.required]);
+
+    this.ccForm = this.fb.group({
+      name: this.name,
+      creditCardNumber: this.creditCardNumber,
+      creditCardLimit: this.creditCardLimit
+    });
+
     this.showTable = false;
     this.getCreditCards();
     this.creditCard = new CreditCard();
@@ -38,7 +55,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     creditCard1.customerName = 'Alice';
     creditCard1.creditCardLimit = 2000.00;
     creditCard1.balance = -1045.00;
-
     this.creditCardService.addCreditCard(creditCard1).subscribe();
 
     const creditCard2 = new CreditCard();
@@ -46,11 +62,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     creditCard2.customerName = 'Bob';
     creditCard2.creditCardLimit = 5000.00;
     creditCard2.balance = 10.24;
-
     this.creditCardService.addCreditCard(creditCard2).subscribe();
 
+  }
 
-
+  public hasError = (controlName: string, errorName: string) => {
+    console.log('error ', errorName)
+    return this.ccForm.controls[controlName].hasError(errorName);
   }
 
   ngAfterViewInit() {

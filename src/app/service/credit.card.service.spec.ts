@@ -1,3 +1,4 @@
+import { ApiService } from './../commons/api.service';
 import { CreditCardService } from './credit.card.service';
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -15,12 +16,8 @@ describe('CreditCardService', () => {
     });
   });
 
-    it('should be created', inject([CreditCardService], (service: CreditCardService) => {
-
-    expect(service).toBeDefined();
-  }));
-
-  it('should fetch all credit cards from api', inject([CreditCardService], (service: CreditCardService) => {
+// testing fetching credit cards
+  it('should fetch all credit cards from api', inject([CreditCardService, ApiService], (service: CreditCardService, apiService: ApiService) => {
 
     const creditCards = [];
     const creditCard1 = new CreditCard();
@@ -42,14 +39,15 @@ describe('CreditCardService', () => {
 
     let response;
 
-    spyOn(service, 'getCreditCards').and.returnValue(creditCards);
+    spyOn(apiService, 'get').and.returnValue(creditCards);
 
 
     response = service.getCreditCards();
     expect(response).toEqual(creditCards);
   }));
 
-  it('should add a credit card ', inject([CreditCardService], (service: CreditCardService) => {
+  // testing adding a credit card
+  it('should add a credit card ', inject([CreditCardService, ApiService], (service: CreditCardService, apiService: ApiService) => {
 
     const inputCreditCard = new CreditCard();
     inputCreditCard.creditCardNumber = '4335887854132220';
@@ -63,7 +61,7 @@ describe('CreditCardService', () => {
     creditCard1.creditCardLimit = 1200.00;
     creditCard1.balance = 100.00;
 
-    spyOn(service, 'addCreditCard').and.returnValue(creditCard1);
+    spyOn(apiService, 'post').and.returnValue(creditCard1);
 
     let response;
         response = service.addCreditCard(inputCreditCard);

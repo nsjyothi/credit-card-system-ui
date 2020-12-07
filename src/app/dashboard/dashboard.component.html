@@ -4,37 +4,24 @@
   <div>
   <mat-card class="card-style">
     <mat-card-title>Add</mat-card-title>
-    <form (ngSubmit)="onSubmit()" #creditCardForm="ngForm">
-      <div class="form-group">
+    <form (ngSubmit)="onSubmit()" [formGroup]="ccForm">
         <label for="name">Name</label>
         <input type="text" class="form-style form-control" id="name" required
-               [(ngModel)]="creditCard.customerName" name="name" #name="ngModel">
-        <div [hidden]="name.valid || name.pristine"
-             class="alert alert-danger">
-          Name is required
-        </div>
-      </div>
-
-      <div class="form-group">
+               [(ngModel)]="creditCard.customerName" name="name" formControlName="name">
+        <br>
         <label for="creditCardNumber">Credit Card Number</label>
-        <input type="text" minlength=13 maxlength="19"class="form-style form-control" (keypress)="validateCardNumber($event)" id="creditCardNumber" required
-               [(ngModel)]="creditCard.creditCardNumber " name="creditCardNumber" #creditCardNumber="ngModel">
-        <div [hidden]="creditCardNumber.valid || creditCardNumber.pristine"
-             class="alert alert-danger">
-          Credit Card number must have 13 to 19 digits
-        </div>
-      </div>
+        <input type="text" class="form-style form-control"  (keypress)="validateCardNumber($event)"  id="creditCardNumber" required minlength=13 maxlength=19
+               [(ngModel)]="creditCard.creditCardNumber" name="creditCardNumber" formControlName="creditCardNumber">
+               <div> <mat-error *ngIf="ccForm.controls.creditCardNumber?.errors?.minlength">
+                Credit card number must be between 13 to 19 digits
+              </mat-error></div>
+            <br>
 
-      <div class="form-group">
         <label for="creditCardLimit">Limit</label>
         <input type="number" class="form-style form-control" id="creditCardLimit" required
-               [(ngModel)]="creditCard.creditCardLimit" name="creditCardLimit" #creditCardLimit="ngModel">
-        <div [hidden]="creditCardLimit.valid || creditCardLimit.pristine"
-             class="alert alert-danger">
-          Credit Card limit is required
-        </div>
-      </div>
-      <button type="submit" class="btn btn-success" [disabled]="!creditCardForm.form.valid" (click)="addNewCreditCard()">Add</button>
+               [(ngModel)]="creditCard.creditCardLimit" name="creditCardLimit" formControlName="creditCardLimit">
+               <br>
+      <button type="submit" class="btn btn-success" [disabled]="!ccForm.valid" (click)="addNewCreditCard()">Add</button>
       <button type="button" class="btn-spacing btn btn-default" (click)="creditCardForm.reset()">Clear</button>
     </form>
   </mat-card>

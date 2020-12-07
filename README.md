@@ -4,14 +4,16 @@ Credit Card System Front End Application
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
 
-##
-
-Install dependencies
+## Install dependencies
 
 Run `npm install` to install the dependencies declared in package.json
 
+## Run in production mode
 
-## Development server
+Run `ng serve --prod` to run in production mode for testing speed and performance
+
+
+## Development mode
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
