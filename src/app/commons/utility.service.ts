@@ -11,10 +11,10 @@ export class UtilityService {
   openSnackBar(message: string) {
     const config = new MatSnackBarConfig();
     config.duration = 3000;
-    config.verticalPosition = 'bottom';
+    config.verticalPosition = 'top';
     config.horizontalPosition = 'center';
 
-      const snackBarRef = this.snackBar.open(message, 'Dismiss', config);
+      const snackBarRef = this.snackBar.open(message, 'Close', config);
       snackBarRef.onAction().subscribe(() => this.snackBar.dismiss());
 
   }

@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.creditCardService.addCreditCard(this.creditCard).subscribe(response => {
       if (response) {
         this.utilityService.openSnackBar(
-          'Success'
+          'Credit Card Added Successfully'
         );
         this.getCreditCards();
         this.creditCardForm.reset();

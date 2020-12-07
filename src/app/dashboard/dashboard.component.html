@@ -22,7 +22,7 @@
                [(ngModel)]="creditCard.creditCardLimit" name="creditCardLimit" formControlName="creditCardLimit">
                <br>
       <button type="submit" class="btn btn-success" [disabled]="!ccForm.valid" (click)="addNewCreditCard()">Add</button>
-      <button type="button" class="btn-spacing btn btn-default" (click)="creditCardForm.reset()">Clear</button>
+      <button type="button" class="btn-spacing btn btn-default" (click)="ccForm.reset()">Clear</button>
     </form>
   </mat-card>
   </div>
